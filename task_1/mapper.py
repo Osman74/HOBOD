@@ -8,6 +8,7 @@ words = dict()
 
 for text in sys.stdin:
     article_id, line = text.strip().split('\t', 1)
+    words = dict()
     line = line.strip()
     word_pattern = "\w+"
     for word in re.finditer(word_pattern, line):
