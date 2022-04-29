@@ -16,13 +16,13 @@ for text in sys.stdin:
         if 6 <= len(key) <= 9:
             if key in words.keys():
                 if words[key] >= 0:
-                    if pattern.match(word):
+                    if word.istitle():
                         words[key] += 1
                     else:
                         words[key] = -1
                         
             else:
-                if pattern.match(word):
+                if word.istitle():
                     words[key] = 1
                 else:
                     words[key] = -1
