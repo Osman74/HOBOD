@@ -14,8 +14,9 @@ for text in sys.stdin:
         word = word.group()
         key = word.lower()
         if 6 <= len(key) <= 9:
-            if key in words.keys():
-                if words[key] >= 0:
+            value = words.get(key, None)
+            if value is not None:
+                if value >= 0:
                     if word.istitle():
                         words[key] += 1
                     else:
@@ -27,6 +28,6 @@ for text in sys.stdin:
                 else:
                     words[key] = -1
     
-    for key in words.keys():
-        if words[key] > 0:
-            print(key + '\t' + str(words[key]))
+    for key, value in words.items():
+        if value > 0:
+            print(key + '\t' + str(value))
