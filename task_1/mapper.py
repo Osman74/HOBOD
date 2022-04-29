@@ -18,25 +18,16 @@ for text in sys.stdin:
             value = words.get(key, None)
             if value is not None:
                 if value >= 0:
-                    if word.istitle():
+                    if pattern.match(word):
                         words[key] += 1
                     else:
-                        del words[key]
+                        words[key] = -1
                         
             else:
-                if word.istitle():
+                if pattern.match(word):
                     words[key] = 1
-#                 else:
-#                     words[key] = -1
-
-    for word in re.finditer(word_pattern, line):
-        word = word.group()
-        key = word.lower()
-        if 6 <= len(key) <= 9:
-            value = words.get(key, None)
-            if value is not None:
-                if not word.istitle():
-                    del words[key]
+                else:
+                    words[key] = -1
 
     for key, value in words.items():
         if value > 0:
