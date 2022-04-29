@@ -9,7 +9,7 @@ hdfs dfs -rm -r -skipTrash ${OUT_DIR} > /dev/null
         -files mapper.py,reducer.py \
         -mapper mapper.py \
         -reducer reducer.py \
-        -input /data/wiki/en_articles \
+        -input /data/wiki/en_articles_part \
         -output ${OUT_DIR} > /dev/null)
 
 hdfs dfs -cat ${OUT_DIR}/part-00000 | head -10
