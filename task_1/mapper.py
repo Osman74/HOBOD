@@ -14,19 +14,19 @@ for text in sys.stdin:
         word = word.group()
         key = word.lower()
         if 6 <= len(key) <= 9:
-            print(key + '\t' + str(1))
-#             if key not in words.keys():
-#                 words[key] = []
-#             words[key].append(word)
+            if key in words.keys():
+                if words[key] >= 0:
+                    if pattern.match(word):
+                        words[key] += 1
+                    else:
+                        words[key] = -1
+                        
+            else:
+                if pattern.match(word):
+                    words[key] = 1
+                else:
+                    words[key] = -1
     
-#     for key in words.keys():
-#         counter = 0
-#         arr = words[key]
-#         for word in arr:
-#             if pattern.match(word):
-#                 counter += 1
-#             else:
-#                 counter = 0
-#                 break
-#         if counter > 0:
-#             print(key + '\t' + str(counter))
+    for key in words.keys():
+        if words[key] > 0:
+            print(key + '\t' + str(words[key]))
