@@ -20,14 +20,23 @@ for text in sys.stdin:
                     if word.istitle():
                         words[key] += 1
                     else:
-                        words[key] = -1
+                        del words[key]
                         
             else:
                 if word.istitle():
                     words[key] = 1
-                else:
-                    words[key] = -1
-    
+#                 else:
+#                     words[key] = -1
+
+    for word in re.finditer(word_pattern, line):
+        word = word.group()
+        key = word.lower()
+        if 6 <= len(key) <= 9:
+            value = words.get(key, None)
+            if value is not None:
+                if not word.istitle():
+                    del words[key]
+
     for key, value in words.items():
         if value > 0:
             print(key + '\t' + str(value))
