@@ -4,25 +4,27 @@ import sys
 
 sys.stdin = open(sys.stdin.fileno(), encoding='utf-8')
 
-current_key = None
-current_date = None
-sum_count = 0
+commands = 0
+sessions = 0
+cur_user = None
 for line in sys.stdin:
-    try:
-        date, key, count = line.strip().split('\t', 2)
-        count = int(count)
-    except ValueError as e:
+    if not line.strip():
         continue
+    user, action, value = line.strip().split('\t', 2)
+    value = int(value)
+    
+    if cur_user is None:
+        cur_user = user
 
-    if current_key != key or current_date != date:
-        if current_key and current_date:
-            print ("{}\t{}\t{}".format(current_date, current_key, sum_count))
-        sum_count = 0
-        current_key = key
-        current_date = date
-    sum_count += count
+    if cur_user != user:
+        if sessions > 0:
+            print("{}\t{}\t{}".format(cur_user, round(commands / sessions, 1), sessions))
+        sessions = 0
+        commands = 0
+    if action == "session":
+        sessions += value
+    else:
+        commands += value
 
-if current_key:
-    print ("{}\t{}\t{}".format(current_date, current_key, sum_count))
-
-
+if sessions > 0:
+    print("{}\t{}\t{}".format(cur_user, round(commands / sessions, 1), sessions))
