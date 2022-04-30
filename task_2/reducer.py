@@ -21,10 +21,11 @@ for line in sys.stdin:
             print("{}\t{}\t{}".format(cur_user, round(commands / sessions, 1), sessions))
         sessions = 0
         commands = 0
-    if action == "session":
-        sessions += value
-    else:
+        cur_user = user
+    if action == "command":
         commands += value
+    else:
+        sessions += value
 
 if sessions > 0:
     print("{}\t{}\t{}".format(cur_user, round(commands / sessions, 1), sessions))
