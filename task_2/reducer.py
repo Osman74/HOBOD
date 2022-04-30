@@ -19,7 +19,7 @@ for line in sys.stdin:
 
     if cur_user != user:
         if sessions > 0:
-            print("{}\t{}\t{}".format(cur_user, round(commands / sessions, 1)), sessions))
+            print("{}\t{}\t{}".format(cur_user, round(commands / sessions, 1), sessions))
         sessions = 0
         commands = 0
         cur_user = user
@@ -29,5 +29,5 @@ for line in sys.stdin:
         sessions += value
 
 if sessions >= 0:
-    print("{}\t{}\t{}".format(cur_user, round(commands / sessions, 1)), sessions))
+    print("{}\t{}\t{}".format(cur_user, round(commands / sessions, 1), sessions))
 #     print("{}\t{}\t{}".format(cur_user, int(round(commands / max(sessions, 1), 1)), sessions))
