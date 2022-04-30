@@ -6,7 +6,8 @@ hdfs dfs -rm -r -skipTrash ${OUT_DIR} > /dev/null
 (yarn jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-streaming.jar \
         -D mapreduce.job.reduces=${NUM_REDUCERS} \
         -D mapreduce.job.output.key.comparator.class=org.apache.hadoop.mapreduce.lib.partition.KeyFieldBasedComparator \
-        -D mapreduce.partition.keycomparator.options="-k1rn" \
+        -D mapreduce.map.output.key.field.separator=. \
+        -D mapreduce.partition.keycomparator.options="-k2rn" \
         -files mapper.py,reducer.py \
         -mapper mapper.py \
         -reducer reducer.py \
