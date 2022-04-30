@@ -1,5 +1,5 @@
 ##! /usr/bin/env bash
-OUT_DIR="results__123"
+OUT_DIR="results__111"
 NUM_REDUCERS=4
 hdfs dfs -rm -r -skipTrash ${OUT_DIR} > /dev/null
 
