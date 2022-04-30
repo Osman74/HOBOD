@@ -7,7 +7,6 @@ hdfs dfs -rm -r -skipTrash ${OUT_DIR} > /dev/null
         -D mapreduce.job.reduces=${NUM_REDUCERS} \
         -D mapreduce.job.output.key.comparator.class=org.apache.hadoop.mapreduce.lib.partition.KeyFieldBasedComparator \
         -D mapreduce.partition.keycomparator.options="-k2,2nr" \
-        -D mapreduce.map.output.key.field.separator=\t \
         -files mapper.py,reducer.py \
         -mapper mapper.py \
         -reducer reducer.py \
