@@ -14,6 +14,6 @@ for line in sys.stdin:
             print("{}\t{}\t{}".format(user, "command", 1))
         
         if len(line) > 8:
-            if line[3] == "UUID" and line[4] == "of" and line[5] == "player":
+            if line[4] == "of" and line[5] == "player":
                 user = line[6]
                 print("{}\t{}\t{}".format(user, "session", 1))
