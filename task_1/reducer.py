@@ -20,7 +20,6 @@ for line in sys.stdin:
     if word != key:
         if counter > 0:
             print(word + '\t' + str(counter))
-#             print(str(counter) + '\t' + word)
         word = key
         counter = 0
 
@@ -28,4 +27,3 @@ for line in sys.stdin:
 
 if counter > 0:
     print(word + '\t' + str(counter))
-#     print(str(counter) + '\t' + word)
