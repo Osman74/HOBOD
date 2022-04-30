@@ -19,7 +19,7 @@ for line in sys.stdin:
 
     if word != key:
         if counter > 0:
-            print(word + '\t' + str(counter))
+            print(word + ' ' + str(counter))
         word = key
         counter = 0
 
