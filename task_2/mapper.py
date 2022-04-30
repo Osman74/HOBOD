@@ -4,7 +4,7 @@ import string
 import sys
 import re
 
-sys.stdin = open(sys.stdin.fileno(), encoding='utf-8')
+# sys.stdin = open(sys.stdin.fileno(), encoding='utf-8')
 
 for line in sys.stdin:
     line = line.strip().split()
