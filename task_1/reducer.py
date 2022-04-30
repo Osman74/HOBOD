@@ -19,11 +19,12 @@ for line in sys.stdin:
 
     if word != key:
         if counter > 0:
-            print(word + ' ' + str(counter))
+            print(str(counter) + '\t' + word)
         word = key
         counter = 0
 
     counter += int(value)
 
 if counter > 0:
-    print(word + ' ' + str(counter))
+#     print(word + ' ' + str(counter))
+    print(str(counter) + '\t' + word)
