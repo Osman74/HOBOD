@@ -8,7 +8,7 @@ hdfs dfs -rm -r -skipTrash ${OUT_DIR} > /dev/null
         -files mapper.py,reducer.py \
         -mapper mapper.py \
         -reducer reducer.py \
-        -input /data/wiki/en_articles_part \
+        -input /data/minecraft-server-logs \
         -output ${OUT_DIR} > /dev/null)
 
 hdfs dfs -cat ${OUT_DIR}/part-00000 | sort -k2nr | head -10
