@@ -13,7 +13,6 @@ for line in sys.stdin:
             user = line[3]
             print("{}\t{}\t{}".format(user, "command", 1))
         
-        if len(line) > 8:
-            if line[4] == "of" and line[5] == "player":
-                user = line[6]
-                print("{}\t{}\t{}".format(user, "session", 1))
+        if line[4] == "of" and line[5] == "player":
+            user = line[6]
+            print("{}\t{}\t{}".format(user, "session", 1))
