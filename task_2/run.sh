@@ -1,6 +1,6 @@
 ##! /usr/bin/env bash
 OUT_DIR="results__123"
-NUM_REDUCERS=4
+NUM_REDUCERS=1
 hdfs dfs -rm -r -skipTrash ${OUT_DIR} > /dev/null
 
 (yarn jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-streaming.jar \
