@@ -26,4 +26,4 @@ for line in sys.stdin:
     counter += int(value)
 
 if counter > 0:
-    print(word + '\t' + str(counter))
+    print(word + ' ' + str(counter))
