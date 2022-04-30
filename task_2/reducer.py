@@ -5,7 +5,7 @@ import sys
 sys.stdin = open(sys.stdin.fileno(), encoding='utf-8')
 
 commands = 0
-sessions = 0
+sessions = 1
 cur_user = None
 for line in sys.stdin:
     if not line.strip():
@@ -19,7 +19,7 @@ for line in sys.stdin:
     if cur_user != user:
         if sessions > 0:
             print("{}\t{}\t{}".format(cur_user, round(commands / sessions, 1), sessions))
-        sessions = 0
+        sessions = 1
         commands = 0
         cur_user = user
     if action == "command":
