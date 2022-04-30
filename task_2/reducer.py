@@ -2,7 +2,7 @@
 
 import sys
 
-sys.stdin = open(sys.stdin.fileno(), encoding='utf-8')
+# sys.stdin = open(sys.stdin.fileno(), encoding='utf-8')
 
 commands = 0
 sessions = 0
