@@ -13,6 +13,6 @@ for line in sys.stdin:
             user = line[3]
             print("{}\t{}\t{}".format(user, "command", 1))
         
-        if line[4] == "of" and line[5] == "player":
-            user = line[6]
+        if line[2] == "UUID" and line[3] == "of" and line[4] == "player":
+            user = line[5]
             print("{}\t{}\t{}".format(user, "session", 1))
