@@ -11,4 +11,4 @@ hdfs dfs -rm -r -skipTrash ${OUT_DIR} > /dev/null
         -input /data/minecraft-server-logs \
         -output ${OUT_DIR} > /dev/null)
 
-hdfs dfs -cat ${OUT_DIR}/part-00000 | sort -k2nr | head -10
+hdfs dfs -cat ${OUT_DIR}/part-00000 | sort -k2nr | head -100
