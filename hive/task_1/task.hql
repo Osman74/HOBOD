@@ -7,34 +7,34 @@ SET hive.mapred.supports.subdirectories=true;
 
 USE mitroshinde;
 
-DROP TABLE IF EXISTS task;
+DROP TABLE IF EXISTS all_data;
 
-CREATE external TABLE task (
+CREATE external TABLE all_data (
     `_id` map<string, string>,
+    subtype string,
     fsId string,
-    kktRegId  string, 
-    subtype  string, 
-    receiveDate  map<string, string >,
-    protocolVersion  int, 
-    ofdId  string, 
-    protocolSubversion  string,
+    kktRegId string,
+    receiveDate map<string, string>,
+    protocolVersion int, 
+    ofdId string,
+    protocolSubversion string,
+    documentId int,
     content struct<
+        user: string,
+        userInn: string,
+        code: int,
         fiscalDriveNumber: string,
         operator: string,
         rawData: string,
         shiftNumber: int,
-        user:  string, 
-        kktRegId:  string,
-        userInn:  string, 
-        fiscalSign: string, 
+        kktRegId: string,
+        fiscalSign: string,
         fiscalDocumentNumber: int, 
-        code:  int,
-        dateTime : map<string, string>
-        >,
-    documentId int
+        dateTime: map<string, string>
+    >
 )
 ROW FORMAT SERDE 'org.openx.data.jsonserde.JsonSerDe'
 STORED AS TEXTFILE
 LOCATION '/data/hive/fns2';
 
-select * from task LIMIT 5;
+SELECT * FROM all_data LIMIT 2;
