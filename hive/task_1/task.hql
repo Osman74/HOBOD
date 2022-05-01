@@ -37,4 +37,4 @@ ROW FORMAT SERDE 'org.openx.data.jsonserde.JsonSerDe'
 STORED AS TEXTFILE
 LOCATION '/data/hive/fns2';
 
-select * from task fetch first 50 rows only;
+select * from task LIMIT 5;
