@@ -37,4 +37,4 @@ ROW FORMAT SERDE 'org.openx.data.jsonserde.JsonSerDe'
 STORED AS TEXTFILE
 LOCATION '/data/hive/fns2';
 
-SELECT * FROM all_data LIMIT 2;
+SELECT * FROM all_data LIMIT 50;
