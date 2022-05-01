@@ -36,3 +36,5 @@ CREATE external TABLE task (
 ROW FORMAT SERDE 'org.openx.data.jsonserde.JsonSerDe'
 STORED AS TEXTFILE
 LOCATION '/data/hive/fns2';
+
+select * from task;
