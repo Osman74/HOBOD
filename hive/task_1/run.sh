@@ -1,3 +1,3 @@
 #! /usr/bin/env bash
 
-hive -f task.sql
+hive -f task.hql
