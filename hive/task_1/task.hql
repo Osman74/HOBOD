@@ -35,6 +35,7 @@ CREATE external TABLE all_data (
     >
 )
 ROW FORMAT SERDE 'org.openx.data.jsonserde.JsonSerDe'
+WITH SERDEPROPERTIES ("ignore.malformed.json" = "true")
 STORED AS TEXTFILE
 LOCATION '/data/hive/fns2';
 
