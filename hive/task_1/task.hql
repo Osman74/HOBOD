@@ -6,7 +6,7 @@ SET mapred.input.dir.recursive=true;
 SET hive.mapred.supports.subdirectories=true;
 SET ignore.malformed.json=true;
 
-USE mitroshinde;
+USE mitroshinde1;
 
 DROP TABLE IF EXISTS all_data;
 
