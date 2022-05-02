@@ -22,6 +22,7 @@ CREATE external TABLE all_data (
     content struct<
         user: string,
         userInn: string,
+        totalSum: int,
         code: int,
         fiscalDriveNumber: string,
         operator: string,
