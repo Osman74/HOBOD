@@ -5,7 +5,6 @@ SET hive.cli.print.header=false;
 SET mapred.input.dir.recursive=true;
 SET hive.mapred.supports.subdirectories=true;
 
-CREATE DATABASE mitroshinde1;
 USE mitroshinde1;
 
 DROP TABLE IF EXISTS filtered;
