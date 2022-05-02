@@ -12,8 +12,8 @@ DROP TABLE IF EXISTS filtered;
 CREATE TABLE filtered
 STORED AS TEXTFILE 
 AS SELECT content.userInn,
-content.dateTime.date as timestamp, 
-    DAY(cast(from_unixtime(CAST(content.dateTime.date/1000 as BIGINT), 'yyyy-MM-dd') as Date )) as date_col,
+content.dateTime.$date as timestamp, 
+    DAY(cast(from_unixtime(CAST(content.dateTime.$date/1000 as BIGINT), 'yyyy-MM-dd') as Date )) as date_col,
     NVL(content.totalSum, 0) as totalSum from all_data;
 
 -- summing
