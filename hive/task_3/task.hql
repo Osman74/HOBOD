@@ -7,29 +7,29 @@ SET hive.mapred.supports.subdirectories=true;
 
 USE mitroshinde1;
 
-DROP TABLE IF EXISTS filtered;
+DROP TABLE IF EXISTS initial_data;
 
-CREATE TABLE filtered
+CREATE TABLE initial_data
 STORED AS TEXTFILE 
-AS SELECT content.userInn,
-content.dateTime.date as timestamp, 
-    DAY(cast(from_unixtime(CAST(content.dateTime.date/1000 as BIGINT), 'yyyy-MM-dd') as Date )) as date_col,
+AS SELECT 
+    content.userInn AS inn,
+    DAY(CAST(from_unixtime(CAST(content.dateTime.date/1000 as BIGINT), 'yyyy-MM-dd') as Date )) as payment_date,
     NVL(content.totalSum, 0) as totalSum from all_data;
 
-DROP TABLE IF EXISTS summed;
+DROP TABLE IF EXISTS sum_data;
 
-CREATE TABLE summed
+CREATE TABLE sum_data
 STORED AS TEXTFILE 
-AS SELECT userInn, date_col, sum(totalSum) as sum,
-row_number() over (partition by userInn order by sum(totalSum) desc) as seqnum FROM filtered
-where userInn != 'NULL'
-GROUP BY userInn, date_col;
+AS SELECT inn, payment_date, sum(totalSum) as sum,
+row_number() over (partition by inn order by sum(totalSum) desc) as seqnum FROM initial_data
+WHERE inn != 'NULL'
+GROUP BY inn, payment_date;
 
-DROP TABLE IF EXISTS new_data;
+DROP TABLE IF EXISTS data_task_3;
 
-CREATE TABLE new_data
+CREATE TABLE data_task_3
 STORED AS TEXTFILE
-AS SELECT userInn, date_col, sum from summed 
-where seqnum = 1 and userInn != 'NULL';
+AS SELECT inn, payment_date, sum from sum_data 
+WHERE seqnum = 1;
 
-select * from new_data LIMIT 50;
+SELECT * FROM data_task_3 LIMIT 50;
