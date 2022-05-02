@@ -12,11 +12,10 @@ DROP TABLE IF EXISTS filtered;
 CREATE TABLE filtered
 STORED AS TEXTFILE 
 AS SELECT content.userInn,
-content.dateTime.$date as timestamp, 
-    DAY(cast(from_unixtime(CAST(content.dateTime.$date/1000 as BIGINT), 'yyyy-MM-dd') as Date )) as date_col,
+content.dateTime.date as timestamp, 
+    DAY(cast(from_unixtime(CAST(content.dateTime.date/1000 as BIGINT), 'yyyy-MM-dd') as Date )) as date_col,
     NVL(content.totalSum, 0) as totalSum from all_data;
 
--- summing
 DROP TABLE IF EXISTS summed;
 
 CREATE TABLE summed
@@ -26,7 +25,6 @@ row_number() over (partition by userInn order by sum(totalSum) desc) as seqnum F
 where userInn != 'NULL'
 GROUP BY userInn, date_col;
 
---taking top totalsum
 DROP TABLE IF EXISTS new_data;
 
 CREATE TABLE new_data
