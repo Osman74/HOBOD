@@ -14,7 +14,7 @@ CREATE external TABLE all_data (
     subtype string,
     fsId string,
     kktRegId string,
-    receiveDate struct<date: int>,
+    receiveDate struct<date: string>,
     protocolVersion int, 
     ofdId string,
     protocolSubversion string,
@@ -31,7 +31,7 @@ CREATE external TABLE all_data (
         kktRegId: string,
         fiscalSign: string,
         fiscalDocumentNumber: int, 
-        dateTime: struct<date: int>
+        dateTime: struct<date: string>
     >
 )
 ROW FORMAT SERDE 'org.openx.data.jsonserde.JsonSerDe'
