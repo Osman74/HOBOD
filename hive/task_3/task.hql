@@ -13,8 +13,8 @@ CREATE TABLE initial_data
 STORED AS TEXTFILE 
 AS SELECT 
     content.userInn AS inn,
-    DAY(CAST(from_unixtime(CAST(content.dateTime.date/1000 as BIGINT), 'yyyy-MM-dd') as Date )) AS payment_date,
-    content.totalSum AS totalSum
+    NVL(content.totalSum, 0) AS totalSum,
+    DAY(CAST(from_unixtime(CAST(content.dateTime.date/1000 as BIGINT), 'yyyy-MM-dd') as Date )) AS payment_date
 FROM all_data
 WHERE content.userInn != 'NULL';
 
@@ -22,8 +22,8 @@ DROP TABLE IF EXISTS sum_data;
 
 CREATE TABLE sum_data
 STORED AS TEXTFILE 
-AS SELECT inn, payment_date, sum(totalSum) as sum,
-row_number() over (PARTITION BY inn ORDER BY sum(totalSum) desc) AS seqnum FROM initial_data
+AS SELECT inn, payment_date, sum(totalSum) AS sum,
+row_number() OVER (PARTITION BY inn ORDER BY sum(totalSum) DESC) AS seqnum FROM initial_data
 GROUP BY inn, payment_date;
 
 DROP TABLE IF EXISTS data_task_3;
