@@ -22,15 +22,33 @@ DROP TABLE IF EXISTS sum_data;
 
 CREATE TABLE sum_data
 STORED AS TEXTFILE 
-AS SELECT inn, payment_date, sum(totalSum) AS sum,
-row_number() OVER (PARTITION BY inn ORDER BY sum(totalSum) DESC) AS seqnum FROM initial_data
+AS SELECT 
+    inn, 
+    sum(totalSum) AS totalSum,
+    payment_date
+FROM initial_data
 GROUP BY inn, payment_date;
+
+DROP TABLE IF EXISTS sort_data;
+
+CREATE TABLE sort_data
+STORED AS TEXTFILE 
+AS SELECT 
+    inn, 
+    totalSum,
+    payment_date,
+    row_number() OVER (PARTITION BY inn ORDER BY totalSum DESC) AS order_num 
+FROM sum_data;
 
 DROP TABLE IF EXISTS data_task_3;
 
 CREATE TABLE data_task_3
 STORED AS TEXTFILE
-AS SELECT inn, payment_date, sum from sum_data 
-WHERE seqnum = 1;
+AS SELECT 
+    inn, 
+    payment_date, 
+    totalSum 
+FROM sort_data 
+WHERE order_num = 1;
 
 SELECT * FROM data_task_3 LIMIT 50;
