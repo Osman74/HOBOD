@@ -51,4 +51,4 @@ AS SELECT
 FROM sort_data 
 WHERE order_num = 1;
 
-SELECT * FROM data_task_3 LIMIT 50;
+SELECT * FROM data_task_3;
