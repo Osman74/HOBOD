@@ -16,7 +16,7 @@ AS SELECT
     DAY(CAST(from_unixtime(CAST(content.dateTime.date/1000 as BIGINT), 'yyyy-MM-dd') as Date )) AS payment_date,
     content.totalSum AS totalSum
 FROM all_data
-WHERE inn != 'NULL' AND totalSum != 'NULL';
+WHERE content.userInn != 'NULL' AND content.totalSum != 'NULL';
 
 DROP TABLE IF EXISTS sum_data;
 
