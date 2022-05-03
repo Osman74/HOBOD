@@ -14,15 +14,16 @@ STORED AS TEXTFILE
 AS SELECT 
     content.userInn AS inn,
     DAY(CAST(from_unixtime(CAST(content.dateTime.date/1000 as BIGINT), 'yyyy-MM-dd') as Date )) as payment_date,
-    NVL(content.totalSum, 0) as totalSum from all_data;
+    content.totalSum 
+FROM all_data
+WHERE inn != 'NULL' AND totalSum != 'NULL';
 
 DROP TABLE IF EXISTS sum_data;
 
 CREATE TABLE sum_data
 STORED AS TEXTFILE 
 AS SELECT inn, payment_date, sum(totalSum) as sum,
-row_number() over (partition by inn order by sum(totalSum) desc) as seqnum FROM initial_data
-WHERE inn != 'NULL'
+row_number() over (PARTITION BY inn ORDER BY sum(totalSum) desc) AS seqnum FROM initial_data
 GROUP BY inn, payment_date;
 
 DROP TABLE IF EXISTS data_task_3;
