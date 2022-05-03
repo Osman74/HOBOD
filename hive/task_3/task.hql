@@ -13,8 +13,8 @@ CREATE TABLE initial_data
 STORED AS TEXTFILE 
 AS SELECT 
     content.userInn AS inn,
-    DAY(CAST(from_unixtime(CAST(content.dateTime.date/1000 as BIGINT), 'yyyy-MM-dd') as Date )) as payment_date,
-    content.totalSum 
+    DAY(CAST(from_unixtime(CAST(content.dateTime.date/1000 as BIGINT), 'yyyy-MM-dd') as Date )) AS payment_date,
+    content.totalSum AS totalSum
 FROM all_data
 WHERE inn != 'NULL' AND totalSum != 'NULL';
 
