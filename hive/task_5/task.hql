@@ -12,6 +12,7 @@ AS SELECT
     content.dateTime.date/1000 AS transaction_ts,
     subtype
 FROM all_data
+WHERE content.userInn != 'NULL'
 SORT BY inn;
 
 
