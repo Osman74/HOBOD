@@ -20,46 +20,26 @@ FROM all_data
 WHERE content.userInn != 'NULL'
 SORT BY inn, transaction_ts;
 
-DROP TABLE IF EXISTS table_lag;
 
-CREATE TABLE table_lag
+DROP TABLE IF EXISTS prev_transaction_data;
+
+CREATE TABLE near_transaction_data
 STORED AS TEXTFILE 
-AS SELECT
-    inn, 
+AS SELECT 
+    inn,
     subtype, 
-    transaction_ts, 
-    Lag FROM(
-        SELECT 
-            inn, 
-            subtype, 
-            transaction_ts,
-            LAG(subtype) OVER (PARTITION BY inn ORDER BY transaction_ts) as Lag 
-        FROM initial_data
-    ) AS inner_query
-WHERE Lag != subtype;
-
-
-DROP TABLE IF EXISTS result;
-
-CREATE TABLE result
-STORED AS TEXTFILE 
-AS SELECT
-    inn FROM (
-        SELECT
-            inn, 
-            subtype,
-            LAG(subtype) OVER (PARTITION BY inn ORDER BY transaction_ts) AS Lag,
-            LEAD(subtype) OVER (PARTITION BY inn ORDER BY transaction_ts) AS Lead 
-        FROM table_lag
-    ) AS inner_query
-WHERE subtype == "receipt" AND (Lead == "openShift" OR Lag == "closeShift");
+    transaction_ts,
+    LAG(subtype) OVER (PARTITION BY inn ORDER BY transaction_ts) AS prev_transaction_type,
+    LEAD(subtype) OVER (PARTITION BY inn ORDER BY transaction_ts) AS next_transaction_type
+FROM initial_data;
 
 
 DROP TABLE IF EXISTS data_task_5;
 
 CREATE TABLE data_task_5
 STORED AS TEXTFILE 
-AS SELECT DISTINCT 
-    inn FROM result;
+AS SELECT DISTINCT inn 
+FROM near_transaction_data
+WHERE subtype == "receipt" AND (next_transaction_type == "openShift" OR prev_transaction_type == "closeShift");
 
 SELECT * FROM data_task_5 LIMIT 50;
