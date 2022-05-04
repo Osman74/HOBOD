@@ -10,11 +10,11 @@ STORED AS TEXTFILE
 AS SELECT 
     content.userInn AS inn,
     --content.dateTime.date as timestamp, 
-    FLOOR(content.dateTime.date/1000) AS timestamp,
+    FLOOR(content.dateTime.date/1000) AS transaction_ts,
     subtype
     --from_unixtime(FLOOR(content.dateTime.date/1000)) as payment_date
 FROM all_data
-SORT BY inn, timestamp;
+SORT BY inn, transaction_ts;
 
 DROP TABLE IF EXISTS table_lag;
 
@@ -23,13 +23,13 @@ STORED AS TEXTFILE
 AS SELECT
     inn, 
     subtype, 
-    timestamp, 
+    transaction_ts, 
     Lag FROM(
         SELECT 
             inn, 
             subtype, 
-            timestamp,
-            LAG(subtype) OVER (PARTITION BY inn ORDER BY timestamp) as Lag 
+            transaction_ts,
+            LAG(subtype) OVER (PARTITION BY inn ORDER BY transaction_ts) as Lag 
         FROM initial_data
     ) AS inner_query
 WHERE Lag != subtype;
@@ -44,8 +44,8 @@ AS SELECT
         SELECT
             inn, 
             subtype,
-            LAG(subtype) OVER (PARTITION BY inn ORDER BY timestamp) AS Lag,
-            LEAD(subtype) OVER (PARTITION BY inn ORDER BY timestamp) AS Lead 
+            LAG(subtype) OVER (PARTITION BY inn ORDER BY transaction_ts) AS Lag,
+            LEAD(subtype) OVER (PARTITION BY inn ORDER BY transaction_ts) AS Lead 
         FROM table_lag
     ) AS inner_query
 WHERE subtype == "receipt" AND (Lead == "openShift" OR Lag == "closeShift");
