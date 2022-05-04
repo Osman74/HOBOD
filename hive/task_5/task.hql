@@ -10,8 +10,8 @@ STORED AS TEXTFILE
 AS SELECT 
     content.userInn AS inn,
     --content.dateTime.date as timestamp, 
-    CAST(content.dateTime.date/1000 as BIGINT) AS timestamp
-    subtype,
+    CAST(content.dateTime.date/1000 as BIGINT) AS timestamp,
+    subtype
     --from_unixtime(FLOOR(content.dateTime.date/1000)) as payment_date
 FROM all_data
 SORT BY content.userInn, content.dateTime.date;
