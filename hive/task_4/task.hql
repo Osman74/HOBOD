@@ -24,9 +24,20 @@ CREATE TABLE first_time
 STORED AS TEXTFILE 
 AS SELECT 
     inn, 
-    AVG(profit) OVER (PARTITION BY inn WHERE payment_hour < 13) AS avg_morning,
-    AVG(profit) OVER (PARTITION BY inn WHERE payment_hour >= 13) AS avg_evening
+    AVG(profit) AS avg_morning 
 FROM initial_data 
+WHERE payment_hour < 13 
+GROUP BY inn;
+
+DROP TABLE IF EXISTS second_time;
+
+CREATE TABLE second_time
+STORED AS TEXTFILE 
+AS SELECT 
+    inn, 
+    AVG(profit) AS avg_evening 
+FROM initial_data 
+WHERE payment_hour >= 13 
 GROUP BY inn;
 
 DROP TABLE IF EXISTS data_task_4;
@@ -34,11 +45,12 @@ DROP TABLE IF EXISTS data_task_4;
 CREATE TABLE data_task_4
 STORED AS TEXTFILE 
 AS SELECT 
-    inn, 
-    ROUND(avg_morning, 0) AS avg_morning, 
-    ROUND(avg_evening, 0) AS avg_evening
+    first_time.inn, 
+    avg_morning, 
+    avg_evening 
 FROM first_time
+INNER JOIN second_time ON first_time.inn = second_time.inn
 WHERE avg_morning > avg_evening
 SORT BY avg_morning;
 
-SELECT * FROM data_task_4 LIMIT 20;
+SELECT * FROM data_task_4 LIMIT 50;
