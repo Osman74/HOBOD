@@ -7,16 +7,15 @@ SET hive.mapred.supports.subdirectories=true;
 
 USE mitroshinde1;
 
-
 DROP TABLE IF EXISTS initial_data;
 
 CREATE TABLE filtered
 STORED AS TEXTFILE 
 AS SELECT 
     content.userInn AS inn,
-    content.dateTime.date as timestamp, 
     HOUR(from_unixtime(floor(content.dateTime.date/1000))) AS date_col,
-    NVL(content.totalSum, 0) AS totalSum FROM all_data;
+    NVL(content.totalSum, 0) AS profit 
+FROM all_data;
 
 DROP TABLE IF EXISTS first_time;
 
