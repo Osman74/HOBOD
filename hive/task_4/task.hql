@@ -14,9 +14,10 @@ CREATE TABLE initial_data
 STORED AS TEXTFILE 
 AS SELECT 
     content.userInn AS inn,
-    HOUR(from_unixtime(floor(content.dateTime.date/1000))) AS payment_hour,
+    HOUR(from_unixtime(FLOOR(content.dateTime.date/1000))) AS payment_hour,
     NVL(content.totalSum, 0) AS profit
-FROM all_data;
+FROM all_data
+WHERE content.userInn != 'NULL';
 
 DROP TABLE IF EXISTS first_time;
 
@@ -24,7 +25,7 @@ CREATE TABLE first_time
 STORED AS TEXTFILE 
 AS SELECT 
     inn, 
-    AVG(profit) AS avg_morning 
+    AVG(profit) AS avg_profit_first
 FROM initial_data 
 WHERE payment_hour < 13 
 GROUP BY inn;
@@ -35,7 +36,7 @@ CREATE TABLE second_time
 STORED AS TEXTFILE 
 AS SELECT 
     inn, 
-    AVG(profit) AS avg_evening 
+    AVG(profit) AS avg_profit_second 
 FROM initial_data 
 WHERE payment_hour >= 13 
 GROUP BY inn;
@@ -46,11 +47,11 @@ CREATE TABLE data_task_4
 STORED AS TEXTFILE 
 AS SELECT 
     first_time.inn, 
-    avg_morning, 
-    avg_evening 
+    ROUND(avg_profit_first, 0) AS avg_profit_first, 
+    ROUND(avg_profit_second, 0) AS avg_profit_second 
 FROM first_time
 INNER JOIN second_time ON first_time.inn = second_time.inn
-WHERE avg_morning > avg_evening
-SORT BY avg_morning;
+WHERE avg_profit_first > avg_profit_second
+SORT BY avg_profit_first;
 
 SELECT * FROM data_task_4 LIMIT 50;
