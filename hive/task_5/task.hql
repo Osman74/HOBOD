@@ -21,7 +21,7 @@ WHERE content.userInn != 'NULL'
 SORT BY inn, transaction_ts;
 
 
-DROP TABLE IF EXISTS prev_transaction_data;
+DROP TABLE IF EXISTS near_transaction_data;
 
 CREATE TABLE near_transaction_data
 STORED AS TEXTFILE 
