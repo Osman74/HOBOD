@@ -16,7 +16,7 @@ AS SELECT
     NVL(content.totalSum, 0) AS totalSum,
     DAY(CAST(from_unixtime(CAST(content.dateTime.date/1000 as BIGINT), 'yyyy-MM-dd') as Date )) AS payment_date
 FROM all_data
-WHERE content.userInn != 'NULL';
+WHERE content.userInn != 'NULL' AND subtype = 'receipt';
 
 DROP TABLE IF EXISTS sum_data;
 
