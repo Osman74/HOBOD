@@ -16,46 +16,5 @@ AS SELECT
 FROM all_data
 SORT BY inn, transaction_ts;
 
-DROP TABLE IF EXISTS table_lag;
 
-CREATE TABLE table_lag
-STORED AS TEXTFILE 
-AS SELECT
-    inn, 
-    subtype, 
-    transaction_ts, 
-    Lag FROM(
-        SELECT 
-            inn, 
-            subtype, 
-            transaction_ts,
-            LAG(subtype) OVER (PARTITION BY inn ORDER BY transaction_ts) as Lag 
-        FROM initial_data
-    ) AS inner_query
-WHERE Lag != subtype;
-
-
-DROP TABLE IF EXISTS result;
-
-CREATE TABLE result
-STORED AS TEXTFILE 
-AS SELECT
-    inn FROM (
-        SELECT
-            inn, 
-            subtype,
-            LAG(subtype) OVER (PARTITION BY inn ORDER BY transaction_ts) AS Lag,
-            LEAD(subtype) OVER (PARTITION BY inn ORDER BY transaction_ts) AS Lead 
-        FROM table_lag
-    ) AS inner_query
-WHERE subtype == "receipt" AND (Lead == "openShift" OR Lag == "closeShift");
-
-
-DROP TABLE IF EXISTS data_task_5;
-
-CREATE TABLE data_task_5
-STORED AS TEXTFILE 
-AS SELECT DISTINCT 
-    inn FROM result;
-
-SELECT * FROM data_task_5 LIMIT 50;
+SELECT * FROM initial_data LIMIT 5;
