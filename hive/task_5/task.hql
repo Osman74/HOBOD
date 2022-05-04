@@ -14,7 +14,7 @@ AS SELECT
     subtype
     --from_unixtime(FLOOR(content.dateTime.date/1000)) as payment_date
 FROM all_data
-SORT BY content.userInn, content.dateTime.date;
+SORT BY inn, timestamp;
 
 DROP TABLE IF EXISTS table_lag;
 
